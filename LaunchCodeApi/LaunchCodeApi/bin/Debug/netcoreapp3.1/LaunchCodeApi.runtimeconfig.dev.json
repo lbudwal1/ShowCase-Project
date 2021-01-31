@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\likhit.PARTSLINK\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\likhit.PARTSLINK\\.nuget\\packages"
+    ]
+  }
+}
