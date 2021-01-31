@@ -6,41 +6,41 @@ import LAGrid from "./shared/grid";
 import LAGridItem from "./shared/gridList";
 import { hasPayload, isNotLoaded, Server } from "../redux/server";
 import { ById, LaunchCodeApiResponse } from "./shared/publicInterfaces";
-import { quoteLoadAction } from "../redux/quote/quoteActions";
-import { getQuotes } from "../redux/quote/quoteAccessor";
-import { IGetQuoteRequest, IQuoteResponse } from "../redux/quote/quoteConstants";
+import { customerLoadAction } from "../redux/customer/customerActions";
+import { getCustomers } from "../redux/customer/customerAccessor";
+import { IGetCustomerRequest, ICustomerResponse } from "../redux/customer/customerConstants";
 import { LAPaperWithPadding } from "./shared/paper";
 import styled from "styled-components";
 import { MEDIA_QUERY_PHONE } from "./shared/theme";
-import QuoteList from "./subComponents/quoteList";
+import CustomerList from "./subComponents/customerList";
 import LAPagination from "./shared/pagination";
 import { LAIconButton } from "./shared/buttons";
 import Switch from "@material-ui/core/Switch";
 import { ROUTE } from "./routes";
 import { AddIcon } from "./shared/icons";
 import RequestStatus from "./shared/requestStatusSnackbar";
-import { getAddQuote } from "../redux/quote/addQuote/addQuoteAccessor";
-import { getEditQuote } from "../redux/quote/editQuote/editQuoteAccessor";
+import { getAddCustomer } from "../redux/customer/addCustomer/addCustomerAccessor";
+import { getEditCustomer } from "../redux/customer/editCustomer/editCustomerAccessor";
 
-interface IQuoteComponentStoreProps {
-    quoteList: Server<LaunchCodeApiResponse<ById<IQuoteResponse>>>;
-    addQuote: Server<string>;
-    editQuote: Server<string>;
+interface ICustomerComponentStoreProps {
+    customerList: Server<LaunchCodeApiResponse<ById<ICustomerResponse>>>;
+    addCustomer: Server<string>;
+    editCustomer: Server<string>;
 };
 
-interface IQuoteComponentDispatchProps {
-    quoteRequest: (data: IGetQuoteRequest) => unknown;
+interface ICustomerComponentDispatchProps {
+    customerRequest: (data: IGetCustomerRequest) => unknown;
 };
 
-interface IQuoteComponentState {
-    data: ById<IQuoteResponse>;
+interface ICustomerComponentState {
+    data: ById<ICustomerResponse>;
     deleted: boolean;
     totalRecords: number;
     currentPage: number;
 }
 
 
-const QuoteStyles = styled.div`
+const CustomerStyles = styled.div`
     margin: 40px 20px;
     
     @media only screen and (max-width: ${MEDIA_QUERY_PHONE}) {
@@ -48,14 +48,14 @@ const QuoteStyles = styled.div`
      }
 `;
 
-type IQuoteComponentProps =
+type ICustomerComponentProps =
     RouteComponentProps
-    & IQuoteComponentStoreProps
-    & IQuoteComponentDispatchProps;
+    & ICustomerComponentStoreProps
+    & ICustomerComponentDispatchProps;
 
-class QuoteComponent extends PureComponent<IQuoteComponentProps, IQuoteComponentState> {
+class CustomerComponent extends PureComponent<ICustomerComponentProps, ICustomerComponentState> {
 
-    public constructor(props: IQuoteComponentProps) {
+    public constructor(props: ICustomerComponentProps) {
         super(props);
         this.state = {
             data: {},
@@ -69,8 +69,8 @@ class QuoteComponent extends PureComponent<IQuoteComponentProps, IQuoteComponent
         this.setDataToState();
     };
 
-    public componentDidUpdate(prevProps: IQuoteComponentProps): void {
-        if (this.props.quoteList !== prevProps.quoteList) {
+    public componentDidUpdate(prevProps: ICustomerComponentProps): void {
+        if (this.props.customerList !== prevProps.customerList) {
             this.setDataToState();
         }
     }
@@ -79,7 +79,7 @@ class QuoteComponent extends PureComponent<IQuoteComponentProps, IQuoteComponent
         const { data, deleted, totalRecords, currentPage } = this.state;
 
         return (
-            <QuoteStyles>
+            <CustomerStyles>
                 <LAPaperWithPadding>
                     <LAGrid>
                         <LAGridItem xs={12} sm={10}>
@@ -94,67 +94,67 @@ class QuoteComponent extends PureComponent<IQuoteComponentProps, IQuoteComponent
 
                         <LAGridItem xs={12} sm={2}>
                             <LAIconButton
-                                label={!deleted ? "Show Deleted Quotes" : "Show Succeeded/Pending Quotes"}
-                                icon={<Switch checked={deleted} color="primary" onChange={this.onPendingQuotesClick} />}
+                                label={!deleted ? "Show Deleted Customers" : "Show Succeeded/Pending Customers"}
+                                icon={<Switch checked={deleted} color="primary" onChange={this.onPendingCustomersClick} />}
                             />
                             <LAIconButton
-                                label="Add Quote"
+                                label="Add Customer"
                                 icon={<AddIcon />}
                                 onClick={this.onAddNewClick}
                             />
                         </LAGridItem>
 
                         <LAGridItem xs={12}>
-                            <QuoteList {...this.props} dataStatus={this.props.quoteList.kind} data={data} deleted={deleted} />
+                            <CustomerList {...this.props} dataStatus={this.props.customerList.kind} data={data} deleted={deleted} />
                         </LAGridItem>
                     </LAGrid>
                 </LAPaperWithPadding>
-                <RequestStatus requestStatus={this.props.editQuote.kind} />
-                <RequestStatus requestStatus={this.props.addQuote.kind} />
-            </QuoteStyles>
+                <RequestStatus requestStatus={this.props.editCustomer.kind} />
+                <RequestStatus requestStatus={this.props.addCustomer.kind} />
+            </CustomerStyles>
         );
     }
 
     private handlePageChange = (currentPage?: number, rowsPerPage?: number): void => {
         this.setState({ currentPage: currentPage ?? 1 });
-        this.props.quoteRequest({ Keywords: "", PageNumber: currentPage, PageSize: 20, deleted: this.state.deleted });
+        this.props.customerRequest({ Keywords: "", PageNumber: currentPage, PageSize: 20, deleted: this.state.deleted });
     };
 
     private onAddNewClick = (): void => {
-        this.props.history.push(ROUTE.QUOTE.DETAILS());
+        this.props.history.push(ROUTE.CUSTOMER.DETAILS());
     };
 
-    private onPendingQuotesClick = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean): void => {
+    private onPendingCustomersClick = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean): void => {
         this.setState({ ...this.state, deleted: checked, currentPage: 1 });
-        this.props.quoteRequest({ Keywords: "", PageNumber: 1, PageSize: 20, deleted: checked });
+        this.props.customerRequest({ Keywords: "", PageNumber: 1, PageSize: 20, deleted: checked });
     }
 
     private setDataToState = (): void => {
-        if (hasPayload(this.props.quoteList)) {
-            const val = this.props.quoteList.payload;
+        if (hasPayload(this.props.customerList)) {
+            const val = this.props.customerList.payload;
             this.setState({ data: val.objectsArray, totalRecords: val.totalRecords ?? 0 });
         }
 
-        if (isNotLoaded(this.props.quoteList)) {
-            this.props.quoteRequest({ Keywords: "", PageNumber: 1, PageSize: 20, deleted: false });
+        if (isNotLoaded(this.props.customerList)) {
+            this.props.customerRequest({ Keywords: "", PageNumber: 1, PageSize: 20, deleted: false });
         }
     };
 
 }
 
-const mapStateToProps = (state: IStore): IQuoteComponentStoreProps => ({
-    quoteList: getQuotes(state),
-    addQuote: getAddQuote(state),
-    editQuote: getEditQuote(state)
+const mapStateToProps = (state: IStore): ICustomerComponentStoreProps => ({
+    customerList: getCustomers(state),
+    addCustomer: getAddCustomer(state),
+    editCustomer: getEditCustomer(state)
 });
 
-const mapDispatchToProps = (dispatch: IDispatch): IQuoteComponentDispatchProps => ({
-    quoteRequest: (data: IGetQuoteRequest): unknown => dispatch(quoteLoadAction(data))
+const mapDispatchToProps = (dispatch: IDispatch): ICustomerComponentDispatchProps => ({
+    customerRequest: (data: IGetCustomerRequest): unknown => dispatch(customerLoadAction(data))
 });
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(QuoteComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(CustomerComponent);
 
 
 

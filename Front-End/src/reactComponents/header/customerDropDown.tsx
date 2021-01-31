@@ -7,24 +7,24 @@ import { DollarIcon } from "../shared/icons";
 type ILAHRMDropDownProps =
 RouteComponentProps;
 
-class QuoteDropDown extends PureComponent<ILAHRMDropDownProps> {
+class CustomerDropDown extends PureComponent<ILAHRMDropDownProps> {
 
     public render(): ReactNode {
         return (
-            <LAMenuItem onClick={this.goToQuote}>
+            <LAMenuItem onClick={this.goToCustomer}>
             <DollarIcon />
             <span className="ml-2">
-                Quotes
+                Customers
             </span>
         </LAMenuItem>
         );
     };
 
-    private goToQuote = (): void => {
-        this.props.history.push(ROUTE.QUOTE.INDEX);
+    private goToCustomer = (): void => {
+        this.props.history.push(ROUTE.CUSTOMER.INDEX);
     };
 
 
 }
 
-export default QuoteDropDown;
+export default CustomerDropDown;

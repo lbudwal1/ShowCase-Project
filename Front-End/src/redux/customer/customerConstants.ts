@@ -1,12 +1,12 @@
 import { IAirportResponse } from "../airport/airportConstants";
 
-export enum IQUOTE_REQUEST {
-    REQUEST = "quote/QUOTE_REQUEST",
-    SUCCESS = "quote/QUOTE_SUCCESS",
-    FAILED = "quote/QUOTE_FAILED"
+export enum ICUSTOMER_REQUEST {
+    REQUEST = "customer/CUSTOMER_REQUEST",
+    SUCCESS = "customer/CUSTOMER_SUCCESS",
+    FAILED = "customer/CUSTOMER_FAILED"
 };
 
-export interface IGetQuoteRequest extends IPaginationRequest {
+export interface IGetCustomerRequest extends IPaginationRequest {
     deleted: boolean;
     id?: number;
 }
@@ -18,9 +18,9 @@ export interface IPaginationRequest {
 };
 
 
-export interface IQuoteResponse {
+export interface ICustomerResponse {
     id: number;
-    quoteStatus?: IQUOTE_STATUS;
+    customerStatus?: ICUSTOMER_STATUS;
     //    CustomerId: number;
     //    DepartureId: number;
     //    DestinationId: number;
@@ -35,7 +35,7 @@ export interface IQuoteResponse {
     depature: IAirportResponse;
 };
 
-export enum IQUOTE_STATUS {
+export enum ICUSTOMER_STATUS {
     "SUCCEEDED" = 1,
     "PENDING" = 2,
     "DELETED" = 3

@@ -18,7 +18,7 @@ export const transportationEpic: Epic = (
         .pipe(
             mergeMap((action) =>
                 post<LaunchCodeApiResponse<ById<ITransportationResponse>>>(
-                    END_POINTS.Quotes.TRANSPORTATION,
+                    END_POINTS.Customers.TRANSPORTATION,
                     withJsonContentType(store.value)
                 )
                     .pipe(

@@ -5949,11 +5949,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\likhit.PARTSLINK\\Desktop\\LaunchCode\\LaunchCodeApi\\LaunchCodeApi\\LaunchCodeApi.csproj",
+      "projectUniqueName": "C:\\Users\\likhit.PARTSLINK\\Desktop\\ShowCase-Project\\LaunchCodeApi\\LaunchCodeApi\\LaunchCodeApi.csproj",
       "projectName": "LaunchCodeApi",
-      "projectPath": "C:\\Users\\likhit.PARTSLINK\\Desktop\\LaunchCode\\LaunchCodeApi\\LaunchCodeApi\\LaunchCodeApi.csproj",
+      "projectPath": "C:\\Users\\likhit.PARTSLINK\\Desktop\\ShowCase-Project\\LaunchCodeApi\\LaunchCodeApi\\LaunchCodeApi.csproj",
       "packagesPath": "C:\\Users\\likhit.PARTSLINK\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\likhit.PARTSLINK\\Desktop\\LaunchCode\\LaunchCodeApi\\LaunchCodeApi\\obj\\",
+      "outputPath": "C:\\Users\\likhit.PARTSLINK\\Desktop\\ShowCase-Project\\LaunchCodeApi\\LaunchCodeApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\likhit.PARTSLINK\\AppData\\Roaming\\NuGet\\NuGet.Config",

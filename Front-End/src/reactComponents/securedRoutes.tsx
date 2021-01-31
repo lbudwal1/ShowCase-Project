@@ -5,8 +5,8 @@ import { IStore, IDispatch } from "../redux/reducers";
 import { ROUTE } from "./routes";
 import Error404Page from "./error404Page";
 import Header from "./header/header";
-import QuoteComponent from "./quoteComponent";
-import {QuoteDetailsComponent} from "./securedRoutesFunctions";
+import CustomerComponent from "./customerComponent";
+import {CustomerDetailsComponent} from "./securedRoutesFunctions";
 import { getTokenExpiryTimings } from "../redux/login/loginAccessors";
 import { refreshTokenRequestAction } from "../redux/login/loginActions";
 import { Server, STATUS_ENUM } from "../redux/server";
@@ -56,9 +56,9 @@ class SecuredRoutes extends Component<ISecuredRoutesProps, ISecuredRoutesState> 
             <>
                 {this.state.showHeader && <Header {...this.props} />}
                 <Switch>
-                     <Route exact={true} path={ROUTE.INDEX} component={QuoteComponent} />
-                    <Route exact={true} path={ROUTE.QUOTE.INDEX} component={QuoteComponent} />
-                    <Route exact={true} path={ROUTE.QUOTE.DETAILS()} component={QuoteDetailsComponent} />
+                     <Route exact={true} path={ROUTE.INDEX} component={CustomerComponent} />
+                    <Route exact={true} path={ROUTE.CUSTOMER.INDEX} component={CustomerComponent} />
+                    <Route exact={true} path={ROUTE.CUSTOMER.DETAILS()} component={CustomerDetailsComponent} />
                     <Route render={(): ReactNode => <Error404Page handleShowHeader={this.handleShowHeader} />} />
                 </Switch>
             </>

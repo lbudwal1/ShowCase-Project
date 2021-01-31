@@ -2,7 +2,7 @@ import React, { ReactNode, PureComponent } from "react";
 import { RouteComponentProps } from "react-router";
 import { connect } from "react-redux";
 import { IDispatch, IStore } from "../../redux/reducers";
-import { IGetQuoteRequest, IQuoteResponse } from "../../redux/quote/quoteConstants";
+import { IGetCustomerRequest, ICustomerResponse } from "../../redux/customer/customerConstants";
 import { LAPaperWithPadding } from "../shared/paper";
 import styled from "styled-components";
 import { MEDIA_QUERY_PHONE } from "../shared/theme";
@@ -11,8 +11,8 @@ import LAGrid from "../shared/grid";
 import LAGridItem from "../shared/gridList";
 import LATextField from "../shared/textField";
 import { hasPayload, isNotLoaded, Server } from "../../redux/server";
-import { quoteLoadAction } from "../../redux/quote/quoteActions";
-import { getQuotes } from "../../redux/quote/quoteAccessor";
+import { customerLoadAction } from "../../redux/customer/customerActions";
+import { getCustomers } from "../../redux/customer/customerAccessor";
 import { transportationLoadAction } from "../../redux/transportation/transportationActions";
 import { getTransportations } from "../../redux/transportation/transportationAccessor";
 import { ITransportationResponse } from "../../redux/transportation/transportationConstants";
@@ -23,35 +23,35 @@ import { IAirportResponse, IGetAirportRequest } from "../../redux/airport/airpor
 import { airportLoadAction } from "../../redux/airport/airportActions";
 import { LASaveAndCancelButton } from "../shared/buttons";
 import { ROUTE } from "../routes";
-import { getAddQuote } from "../../redux/quote/addQuote/addQuoteAccessor";
-import { addQuoteLoadAction } from "../../redux/quote/addQuote/addQuoteActions";
-import { IAddEditQuoteRequest } from "../../redux/quote/addQuote/addQuoteConstants";
-import { editQuoteLoadAction } from "../../redux/quote/editQuote/editQuoteActions";
-import { getEditQuote } from "../../redux/quote/editQuote/editQuoteAccessor";
+import { getAddCustomer } from "../../redux/customer/addCustomer/addCustomerAccessor";
+import { addCustomerLoadAction } from "../../redux/customer/addCustomer/addCustomerActions";
+import { IAddEditCustomerRequest } from "../../redux/customer/addCustomer/addCustomerConstants";
+import { editCustomerLoadAction } from "../../redux/customer/editCustomer/editCustomerActions";
+import { getEditCustomer } from "../../redux/customer/editCustomer/editCustomerAccessor";
 import { FieldValidator, IFieldErrorKeyValue } from "../shared/fieldValidator";
 
-interface IQuoteDetailsComponentStoreProps {
-    quoteList: Server<LaunchCodeApiResponse<ById<IQuoteResponse>>>;
+interface ICustomerDetailsComponentStoreProps {
+    customerList: Server<LaunchCodeApiResponse<ById<ICustomerResponse>>>;
     transPortationList: Server<ById<ITransportationResponse>>;
     airportList: Server<ById<IAirportResponse>>;
-    addQuote: Server<string>;
-    editQuote: Server<string>;
+    addCustomer: Server<string>;
+    editCustomer: Server<string>;
 };
 
-interface IQuoteDetailsComponentDispatchProps {
-    quoteRequest: (data: IGetQuoteRequest) => unknown;
+interface ICustomerDetailsComponentDispatchProps {
+    customerRequest: (data: IGetCustomerRequest) => unknown;
     transportationRequest: () => unknown;
     airportRequest: (data: IGetAirportRequest) => unknown;
-    addQuoteRequest: (data: IAddEditQuoteRequest) => unknown;
-    editQuoteRequest: (data: IAddEditQuoteRequest) => unknown;
+    addCustomerRequest: (data: IAddEditCustomerRequest) => unknown;
+    editCustomerRequest: (data: IAddEditCustomerRequest) => unknown;
 };
 
-interface IQuoteDetailsOwnProps {
+interface ICustomerDetailsOwnProps {
     id: number;
 };
 
-interface IQuoteDetailsComponentState {
-    details: IQuoteResponse;
+interface ICustomerDetailsComponentState {
+    details: ICustomerResponse;
     airport: {
         loadingAirports: boolean;
         airportSearch: string;
@@ -60,7 +60,7 @@ interface IQuoteDetailsComponentState {
     errors: ById<IFieldErrorKeyValue>;
 };
 
-const QuoteDetailsStyles = styled.div`
+const CustomerDetailsStyles = styled.div`
     margin: 40px 20px;
     
     @media only screen and (max-width: ${MEDIA_QUERY_PHONE}) {
@@ -68,21 +68,21 @@ const QuoteDetailsStyles = styled.div`
      }
 `;
 
-type IQuoteDetailsComponentProps =
+type ICustomerDetailsComponentProps =
     RouteComponentProps
-    & IQuoteDetailsOwnProps
-    & IQuoteDetailsComponentStoreProps
-    & IQuoteDetailsComponentDispatchProps;
+    & ICustomerDetailsOwnProps
+    & ICustomerDetailsComponentStoreProps
+    & ICustomerDetailsComponentDispatchProps;
 
-class QuoteDetails extends PureComponent<IQuoteDetailsComponentProps, IQuoteDetailsComponentState> {
+class CustomerDetails extends PureComponent<ICustomerDetailsComponentProps, ICustomerDetailsComponentState> {
 
-    public constructor(props: IQuoteDetailsComponentProps) {
+    public constructor(props: ICustomerDetailsComponentProps) {
         super(props);
         this.state = {
             details: {
                 id: 0,
                 transportationId: 1,
-                quoteStatus: 1,
+                customerStatus: 1,
                 depature: {
                     id: 0,
                     name: "",
@@ -127,8 +127,8 @@ class QuoteDetails extends PureComponent<IQuoteDetailsComponentProps, IQuoteDeta
         this.errorsToState();
     };
 
-    public componentDidUpdate(prevProps: IQuoteDetailsComponentProps): void {
-        if (this.props.quoteList !== prevProps.quoteList) {
+    public componentDidUpdate(prevProps: ICustomerDetailsComponentProps): void {
+        if (this.props.customerList !== prevProps.customerList) {
             this.checkReduxState();
         }
 
@@ -142,7 +142,7 @@ class QuoteDetails extends PureComponent<IQuoteDetailsComponentProps, IQuoteDeta
         const { details, airport, errors } = this.state;
 
         return (
-            <QuoteDetailsStyles>
+            <CustomerDetailsStyles>
                 <LAPaperWithPadding>
 
                     <LAGrid justify="space-evenly" alignItems="center" spacing={3}>
@@ -289,7 +289,7 @@ class QuoteDetails extends PureComponent<IQuoteDetailsComponentProps, IQuoteDeta
                     </LAGrid>
 
                 </LAPaperWithPadding>
-            </QuoteDetailsStyles>
+            </CustomerDetailsStyles>
         );
     }
 
@@ -359,17 +359,17 @@ class QuoteDetails extends PureComponent<IQuoteDetailsComponentProps, IQuoteDeta
     };
 
     private checkReduxState = (): void => {
-        if (hasPayload(this.props.quoteList) && this.props.id > 0) {
-            const data = this.props.quoteList.payload.objectsArray[this.props.id];
+        if (hasPayload(this.props.customerList) && this.props.id > 0) {
+            const data = this.props.customerList.payload.objectsArray[this.props.id];
             if (data === undefined) {
-                this.props.quoteRequest({ Keywords: "", PageNumber: 1, PageSize: 1, deleted: false, id: this.props.id });
+                this.props.customerRequest({ Keywords: "", PageNumber: 1, PageSize: 1, deleted: false, id: this.props.id });
             } else {
                 this.setState({ details: data });
             }
         };
 
-        if (isNotLoaded(this.props.quoteList) && this.props.id > 0) {
-            this.props.quoteRequest({ Keywords: "", PageNumber: 1, PageSize: 1, deleted: false, id: this.props.id });
+        if (isNotLoaded(this.props.customerList) && this.props.id > 0) {
+            this.props.customerRequest({ Keywords: "", PageNumber: 1, PageSize: 1, deleted: false, id: this.props.id });
         };
 
         if (isNotLoaded(this.props.transPortationList)) {
@@ -413,7 +413,7 @@ class QuoteDetails extends PureComponent<IQuoteDetailsComponentProps, IQuoteDeta
         const errors = this.state.errors;
         if (Object.values(errors).length === 0) {
             if (data) {
-                const requestBody: IAddEditQuoteRequest = {
+                const requestBody: IAddEditCustomerRequest = {
                     id: data.id,
                     transportationId: data.transportationId,
                     depatureDate: data.depatureDate,
@@ -425,9 +425,9 @@ class QuoteDetails extends PureComponent<IQuoteDetailsComponentProps, IQuoteDeta
                 };
 
                 if (data.id !== 0) {
-                    this.props.editQuoteRequest(requestBody);
+                    this.props.editCustomerRequest(requestBody);
                 } else {
-                    this.props.addQuoteRequest(requestBody);
+                    this.props.addCustomerRequest(requestBody);
                 }
                 this.handleBack();
             }
@@ -435,7 +435,7 @@ class QuoteDetails extends PureComponent<IQuoteDetailsComponentProps, IQuoteDeta
     };
 
     private handleBack = (): void => {
-        this.props.history.push(ROUTE.QUOTE.INDEX);
+        this.props.history.push(ROUTE.CUSTOMER.INDEX);
     };
 
     private errorsToState = (): void => {
@@ -456,21 +456,21 @@ class QuoteDetails extends PureComponent<IQuoteDetailsComponentProps, IQuoteDeta
 
 }
 
-const mapStateToProps = (state: IStore): IQuoteDetailsComponentStoreProps => ({
-    quoteList: getQuotes(state),
+const mapStateToProps = (state: IStore): ICustomerDetailsComponentStoreProps => ({
+    customerList: getCustomers(state),
     transPortationList: getTransportations(state),
     airportList: getAirports(state),
-    addQuote: getAddQuote(state),
-    editQuote: getEditQuote(state)
+    addCustomer: getAddCustomer(state),
+    editCustomer: getEditCustomer(state)
 });
 
-const mapDispatchToProps = (dispatch: IDispatch): IQuoteDetailsComponentDispatchProps => ({
-    quoteRequest: (data: IGetQuoteRequest): unknown => dispatch(quoteLoadAction(data)),
+const mapDispatchToProps = (dispatch: IDispatch): ICustomerDetailsComponentDispatchProps => ({
+    customerRequest: (data: IGetCustomerRequest): unknown => dispatch(customerLoadAction(data)),
     transportationRequest: (): unknown => dispatch(transportationLoadAction()),
     airportRequest: (data: IGetAirportRequest): unknown => dispatch(airportLoadAction(data)),
-    addQuoteRequest: (data: IAddEditQuoteRequest): unknown => dispatch(addQuoteLoadAction(data)),
-    editQuoteRequest: (data: IAddEditQuoteRequest): unknown => dispatch(editQuoteLoadAction(data))
+    addCustomerRequest: (data: IAddEditCustomerRequest): unknown => dispatch(addCustomerLoadAction(data)),
+    editCustomerRequest: (data: IAddEditCustomerRequest): unknown => dispatch(editCustomerLoadAction(data))
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(QuoteDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(CustomerDetails);

@@ -5,11 +5,11 @@ import { Server } from "./server";
 import { ITransportationResponse } from "./transportation/transportationConstants";
 import { TransportationReducer } from "./transportation/transportationReducer";
 import { AirportReducer } from "./airport/airportReducer";
-import { QuoteReducer } from "./quote/quoteReducer";
-import { AddQuoteReducer } from "./quote/addQuote/addQuoteReducer";
-import { EditQuoteReducer } from "./quote/editQuote/editQuoteReducer";
-import { DeleteQuoteReducer } from "./quote/deleteQuote/deleteQuoteReducer";
-import { IQuoteResponse } from "./quote/quoteConstants";
+import { CustomerReducer } from "./customer/customerReducer";
+import { AddCustomerReducer } from "./customer/addCustomer/addCustomerReducer";
+import { EditCustomerReducer } from "./customer/editCustomer/editCustomerReducer";
+import { DeleteCustomerReducer } from "./customer/deleteCustomer/deleteCustomerReducer";
+import { ICustomerResponse } from "./customer/customerConstants";
 import { ILogin } from "./login/loginConstants";
 import { loginReducer } from "./login/loginReducer";
 import { ForgotPasswordRequestReducer, ForgotPasswordReducer, ReSendTemporaryPasswordReducer } from "./forgotPassword/forgotPasswordReducer";
@@ -33,8 +33,8 @@ export interface IStore {
       };
       reSendTemporaryPassword: Server<string>;
   };
-    quote: {
-      quotes: Server<LaunchCodeApiResponse<ById<IQuoteResponse>>>;
+    customer: {
+      customers: Server<LaunchCodeApiResponse<ById<ICustomerResponse>>>;
       add: Server<string>;
       edit: Server<string>;
       delete: Server<string>;
@@ -52,11 +52,11 @@ const reducerMap: ReducerMap<IStore> = {
     }),
     reSendTemporaryPassword: ReSendTemporaryPasswordReducer,
 }),
-  quote: combineReducers({
-    quotes: QuoteReducer,
-    add: AddQuoteReducer,
-    edit: EditQuoteReducer,
-    delete: DeleteQuoteReducer
+  customer: combineReducers({
+    customers: CustomerReducer,
+    add: AddCustomerReducer,
+    edit: EditCustomerReducer,
+    delete: DeleteCustomerReducer
 }),
 airportList: AirportReducer
 };

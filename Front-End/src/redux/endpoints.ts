@@ -1,12 +1,12 @@
 import { webConfig } from "../utils/webConfig";
 
 export const END_POINTS = {
-    Quotes: {
+    Customers: {
         TRANSPORTATION: `${webConfig.apiBaseUrl}/api/Transportation/GetTransportation`,
-        QUOTE_LIST: `${webConfig.apiBaseUrl}/api/Quote/GetQuotes`,
-        ADD_QUOTE: `${webConfig.apiBaseUrl}/api/Quote/AddQuote`,
-        EDIT_QUOTE: `${webConfig.apiBaseUrl}/api/Quote/EditQuote`,
-        DELETE_QUOTE: `${webConfig.apiBaseUrl}/api/Quote/DeleteQuote`
+        CUSTOMER_LIST: `${webConfig.apiBaseUrl}/api/Customer/GetCustomers`,
+        ADD_CUSTOMER: `${webConfig.apiBaseUrl}/api/Customer/AddCustomer`,
+        EDIT_CUSTOMER: `${webConfig.apiBaseUrl}/api/Customer/EditCustomer`,
+        DELETE_CUSTOMER: `${webConfig.apiBaseUrl}/api/Customer/DeleteCustomer`
     },
     AIRPORTS: {
         AIRPORT_LIST: `${webConfig.apiBaseUrl}/api/Aiport/GetAirports`,

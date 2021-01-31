@@ -1,4 +1,4 @@
-import { IPaginationRequest } from "../quote/quoteConstants";
+import { IPaginationRequest } from "../customer/customerConstants";
 
 export enum IAIRPORT_REQUEST {
     REQUEST = "airport/AIRPORT_REQUEST",

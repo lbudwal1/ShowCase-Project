@@ -4,7 +4,7 @@ import { Link, RouteComponentProps } from "react-router-dom";
 import { MAIN_COLOR, MEDIA_QUERY_PHONE, APP_NAME } from "../shared/theme";
 import { headerLogo} from "../shared/icons";
 import { ROUTE } from "../routes";
-import QuoteDropDown from "./quoteDropDown";
+import CustomerDropDown from "./customerDropDown";
 import LogoutButton from './../logoutButton';
 
 const HeaderStyles = styled.div`
@@ -72,7 +72,7 @@ const Header: React.FC<RouteComponentProps> = React.memo((props: RouteComponentP
 
         </div>
         <div className="sub-header">
-            <QuoteDropDown {...props} />
+            <CustomerDropDown {...props} />
         </div>
 
 

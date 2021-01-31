@@ -3,10 +3,10 @@ import { IAction, IStore } from "./reducers";
 import { EpicDependencies } from "./store";
 import { transportationEpic } from "./transportation/transportationEpic";
 import { airportEpic } from "./airport/airportEpic";
-import { quoteEpic } from "./quote/quoteEpic";
-import { addQuoteEpic } from "./quote/addQuote/addQuoteEpic";
-import { editQuoteEpic } from "./quote/editQuote/editQuoteEpic";
-import { deleteQuoteEpic } from "./quote/deleteQuote/deleteQuoteEpic";
+import { customerEpic } from "./customer/customerEpic";
+import { addCustomerEpic } from "./customer/addCustomer/addCustomerEpic";
+import { editCustomerEpic } from "./customer/editCustomer/editCustomerEpic";
+import { deleteCustomerEpic } from "./customer/deleteCustomer/deleteCustomerEpic";
 import loginEpics from "./login/loginEpics";
 import { forgotPasswordEpic } from './forgotPassword/forgotPasswordEpic';
 import { forgotPasswordRequestEpic } from './forgotPassword/forgotPasswordRequestEpic';
@@ -19,8 +19,8 @@ export default combineEpics(
     forgotPasswordRequestEpic,
     transportationEpic,
     airportEpic,
-    quoteEpic,
-    addQuoteEpic,
-    editQuoteEpic,
-    deleteQuoteEpic
+    customerEpic,
+    addCustomerEpic,
+    editCustomerEpic,
+    deleteCustomerEpic
 );
