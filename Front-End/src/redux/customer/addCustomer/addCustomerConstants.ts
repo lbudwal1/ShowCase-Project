@@ -1,5 +1,4 @@
-import { ICustomer } from "../customerConstants";
-
+import { IPatient } from "../customerConstants";
 
 export enum IADD_CUSTOMER_REQUEST {
     REQUEST = "addCustomer/ADD_CUSTOMER_REQUEST",
@@ -7,14 +6,6 @@ export enum IADD_CUSTOMER_REQUEST {
     FAILED = "addCustomer/ADD_CUSTOMER_FAILED"
 };
 
-export interface IAddEditCustomerRequest {
-    id?: number;
-    depatureId: number;
-    destinationId: number;
-    numberOfTravellers: number;
-    transportationId: number;
-    depatureDate: string;
-    returnDate: string;
-    customer: ICustomer
+export interface IAddEditCustomerRequest extends IPatient{
 };
 

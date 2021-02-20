@@ -8,7 +8,7 @@ import { hasPayload, isNotLoaded, Server } from "../redux/server";
 import { ById, LaunchCodeApiResponse } from "./shared/publicInterfaces";
 import { customerLoadAction } from "../redux/customer/customerActions";
 import { getCustomers } from "../redux/customer/customerAccessor";
-import { IGetCustomerRequest, ICustomerResponse } from "../redux/customer/customerConstants";
+import { IGetCustomerRequest, IPatient } from "../redux/customer/customerConstants";
 import { LAPaperWithPadding } from "./shared/paper";
 import styled from "styled-components";
 import { MEDIA_QUERY_PHONE } from "./shared/theme";
@@ -23,7 +23,7 @@ import { getAddCustomer } from "../redux/customer/addCustomer/addCustomerAccesso
 import { getEditCustomer } from "../redux/customer/editCustomer/editCustomerAccessor";
 
 interface ICustomerComponentStoreProps {
-    customerList: Server<LaunchCodeApiResponse<ById<ICustomerResponse>>>;
+    customerList: Server<LaunchCodeApiResponse<ById<IPatient>>>;
     addCustomer: Server<string>;
     editCustomer: Server<string>;
 };
@@ -33,7 +33,7 @@ interface ICustomerComponentDispatchProps {
 };
 
 interface ICustomerComponentState {
-    data: ById<ICustomerResponse>;
+    data: ById<IPatient>;
     deleted: boolean;
     totalRecords: number;
     currentPage: number;

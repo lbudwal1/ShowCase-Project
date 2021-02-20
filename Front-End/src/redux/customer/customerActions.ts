@@ -1,4 +1,4 @@
-import { IGetCustomerRequest, ICustomerResponse, ICUSTOMER_REQUEST } from "./customerConstants";
+import { IGetCustomerRequest, IPatient, ICUSTOMER_REQUEST } from "./customerConstants";
 import {ById, LaunchCodeApiResponse} from "../../reactComponents/shared/publicInterfaces";
 
 export interface ICustomerLoadAction {
@@ -12,9 +12,9 @@ export const customerLoadAction = (data: IGetCustomerRequest): ICustomerLoadActi
 
 export interface ICustomerSuccessAction {
     type: ICUSTOMER_REQUEST.SUCCESS;
-    list: LaunchCodeApiResponse<ById<ICustomerResponse>>;
+    list: LaunchCodeApiResponse<ById<IPatient>>;
 }
-export const customerLoadSuccessAction = (list: LaunchCodeApiResponse<ById<ICustomerResponse>>): ICustomerSuccessAction => ({
+export const customerLoadSuccessAction = (list: LaunchCodeApiResponse<ById<IPatient>>): ICustomerSuccessAction => ({
     type: ICUSTOMER_REQUEST.SUCCESS,
     list
 });

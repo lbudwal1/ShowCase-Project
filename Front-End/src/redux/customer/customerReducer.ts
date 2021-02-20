@@ -7,7 +7,7 @@ import { IDELETE_CUSTOMER_REQUEST } from "./deleteCustomer/deleteCustomerConstan
 import { IEditCustomerSuccessAction } from "./editCustomer/editCustomerActions";
 import { IEDIT_CUSTOMER_REQUEST } from "./editCustomer/editCustomerConstants";
 import { ICustomerLoadAction, ICustomerLoadFailedAction, ICustomerSuccessAction } from "./customerActions";
-import { ICustomerResponse, ICUSTOMER_REQUEST } from "./customerConstants";
+import { IPatient, ICUSTOMER_REQUEST } from "./customerConstants";
 
 type Actions =
     | ICustomerLoadAction
@@ -17,7 +17,7 @@ type Actions =
     | IAddCustomerSuccessAction
     | IEditCustomerSuccessAction;
 
-export const CustomerReducer = (state: Server<LaunchCodeApiResponse<ById<ICustomerResponse>>> = notLoaded, action: Actions): Server<LaunchCodeApiResponse<ById<ICustomerResponse>>> => {
+export const CustomerReducer = (state: Server<LaunchCodeApiResponse<ById<IPatient>>> = notLoaded, action: Actions): Server<LaunchCodeApiResponse<ById<IPatient>>> => {
     switch (action.type) {
         case ICUSTOMER_REQUEST.REQUEST:
             return loading;

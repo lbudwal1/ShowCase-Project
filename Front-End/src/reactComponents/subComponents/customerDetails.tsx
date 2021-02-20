@@ -2,7 +2,7 @@ import React, { ReactNode, PureComponent } from "react";
 import { RouteComponentProps } from "react-router";
 import { connect } from "react-redux";
 import { IDispatch, IStore } from "../../redux/reducers";
-import { IGetCustomerRequest, ICustomerResponse } from "../../redux/customer/customerConstants";
+import { DOCTOR_TYPE, IGetCustomerRequest, IPatient } from "../../redux/customer/customerConstants";
 import { LAPaperWithPadding } from "../shared/paper";
 import styled from "styled-components";
 import { MEDIA_QUERY_PHONE } from "../shared/theme";
@@ -31,7 +31,7 @@ import { getEditCustomer } from "../../redux/customer/editCustomer/editCustomerA
 import { FieldValidator, IFieldErrorKeyValue } from "../shared/fieldValidator";
 
 interface ICustomerDetailsComponentStoreProps {
-    customerList: Server<LaunchCodeApiResponse<ById<ICustomerResponse>>>;
+    customerList: Server<LaunchCodeApiResponse<ById<IPatient>>>;
     transPortationList: Server<ById<ITransportationResponse>>;
     airportList: Server<ById<IAirportResponse>>;
     addCustomer: Server<string>;
@@ -51,7 +51,7 @@ interface ICustomerDetailsOwnProps {
 };
 
 interface ICustomerDetailsComponentState {
-    details: ICustomerResponse;
+    details: IPatient;
     airport: {
         loadingAirports: boolean;
         airportSearch: string;
@@ -80,36 +80,17 @@ class CustomerDetails extends PureComponent<ICustomerDetailsComponentProps, ICus
         super(props);
         this.state = {
             details: {
-                id: 0,
-                transportationId: 1,
-                customerStatus: 1,
-                depature: {
-                    id: 0,
-                    name: "",
-                    code: "",
-                    stateCode: "",
-                    countryCode: "",
-                    countryName: ""
-                },
-                destination: {
-                    id: 0,
-                    name: "",
-                    code: "",
-                    stateCode: "",
-                    countryCode: "",
-                    countryName: ""
-                },
-                depatureDate: new Date().toDateString(),
-                returnDate: "",
-                numberOfTravellers: 0,
-                customer: {
-                    id: 0,
-                    firstName: "",
-                    lastName: "",
-                    phoneNumber: "",
-                    email: "",
-                    address: ""
-                }
+                id: "",
+                firstName: "",
+                lastName: "",
+                gender: "",
+                dateOfBirth: "",
+                occupations: [],
+                phones: [],
+                emails: [],
+                addresses: [],
+                websites: [],
+                type: DOCTOR_TYPE.FAMILY
             },
             airport: {
                 loadingAirports: false,
@@ -152,12 +133,12 @@ class CustomerDetails extends PureComponent<ICustomerDetailsComponentProps, ICus
                             <hr />
                         </LAGridItem>
 
-                        <LAGridItem xs={12} sm={6}>
+                        {/* <LAGridItem xs={12} sm={6}>
                             <LAAutoComplete
                                 dropDownPlaceHolder="Depature Airport"
                                 multiple={false}
                                 getOptionLabel="name"
-                                value={details.depature}
+                                value={details.}
                                 defaultValue={details.depature}
                                 filterSelectedOptions={false}
                                 autoHighlight={true}
@@ -185,25 +166,14 @@ class CustomerDetails extends PureComponent<ICustomerDetailsComponentProps, ICus
                                 option={Object.values(airport.airportList)}
                                 errorText={errors["destination"] ? errors["destination"].message : undefined}
                             />
-                        </LAGridItem>
+                        </LAGridItem> */}
 
                         <LAGridItem xs={12} sm={6}>
                             <div className="text-center">Depature Date</div><br />
-                            <LADateTimePicker showTime={false} value={details.depatureDate} onChange={(value: string) => this.handleDateChange("depatureDate", value)} />
+                            <LADateTimePicker showTime={false} value={details.dateOfBirth} onChange={(value: string) => this.handleDateChange("depatureDate", value)} />
                         </LAGridItem>
 
-                        <LAGridItem xs={12} sm={6}>
-                            <div className="text-center">Return Date</div><br />
-                            <LADateTimePicker showTime={false} value={details.returnDate ?? ""} onChange={(value: string) => this.handleDateChange("returnDate", value)} />
-                        </LAGridItem>
-
-                        <LAGridItem xs={12} sm={6}>
-                            <LATextField fullWidth={true} value={details.numberOfTravellers} type="number" name="noOfTravellers"
-                                label="Number Of Travellers" onChange={this.handleNumberOfTraveller}
-                            />
-                        </LAGridItem>
-
-                        <LAGridItem xs={12} sm={6}>
+                        {/* <LAGridItem xs={12} sm={6}>
                             <LAAutoComplete
                                 dropDownPlaceHolder="Transportation"
                                 multiple={false}
@@ -216,16 +186,16 @@ class CustomerDetails extends PureComponent<ICustomerDetailsComponentProps, ICus
                                 value={hasPayload(this.props.transPortationList) ? this.props.transPortationList.payload[details.transportationId] : []}
                                 defaultValue={hasPayload(this.props.transPortationList) ? this.props.transPortationList.payload[details.transportationId] : []}
                             />
-                        </LAGridItem>
+                        </LAGridItem> */}
 
                         <LAGridItem className="text-center mt-5" xs={12} sm={12}>
-                            <strong>Customer Information</strong>
+                            <strong>Client Information</strong>
                             <hr />
                         </LAGridItem>
 
                         <LAGridItem xs={12} sm={6}>
                             <LATextField fullWidth={true}
-                                value={details.customer.firstName}
+                                value={details.firstName}
                                 name="firstName"
                                 label="First Name"
                                 onChange={this.handleCustomerInfoChange}
@@ -236,7 +206,7 @@ class CustomerDetails extends PureComponent<ICustomerDetailsComponentProps, ICus
                         <LAGridItem xs={12} sm={6}>
                             <LATextField
                                 fullWidth={true}
-                                value={details.customer.lastName}
+                                value={details.lastName}
                                 name="lastName"
                                 label="Last Name"
                                 onChange={this.handleCustomerInfoChange}
@@ -245,37 +215,49 @@ class CustomerDetails extends PureComponent<ICustomerDetailsComponentProps, ICus
                         </LAGridItem>
 
                         <LAGridItem xs={12} sm={6}>
-                            <LATextField
-                                fullWidth={true}
-                                value={details.customer.phoneNumber}
-                                name="phoneNumber"
-                                label="Phone Number"
-                                onChange={this.handleCustomerInfoChange}
-                                errorText={errors["phoneNumber"] ? errors["phoneNumber"].message : undefined}
-                            />
+                            {details.phones.map((q, index) => {
+                                return(
+                                    <LATextField
+                                    fullWidth={true}
+                                    value={q.number}
+                                    name="phoneNumber"
+                                    label="Phone Number"
+                                    onChange={this.handleCustomerInfoChange}
+                                    errorText={errors["phoneNumber"] ? errors["phoneNumber"].message : undefined}
+                                />
+                                )
+                            })}
                         </LAGridItem>
 
                         <LAGridItem xs={12} sm={6}>
-                            <LATextField
-                                fullWidth={true}
-                                value={details.customer.email}
-                                name="email"
-                                label="Email"
-                                type="email"
-                                onChange={this.handleCustomerInfoChange}
-                                errorText={errors["email"] ? errors["email"].message : undefined}
-                            />
+                            {details.emails.map((q, index) => {
+                                return(
+                                    <LATextField
+                                    fullWidth={true}
+                                    value={q.address}
+                                    name="email"
+                                    label="Email"
+                                    type="email"
+                                    onChange={this.handleCustomerInfoChange}
+                                    errorText={errors["email"] ? errors["email"].message : undefined}
+                                />
+                                )
+                            })}
                         </LAGridItem>
 
-                        <LAGridItem xs={12} sm={12}>
-                            <LATextField
-                                fullWidth={true}
-                                value={details.customer.address}
-                                name="address"
-                                label="Address"
-                                onChange={this.handleCustomerInfoChange}
-                                errorText={errors["address"] ? errors["address"].message : undefined}
-                            />
+                        <LAGridItem xs={12} sm={6}>
+                            {details.addresses.map((q, index) => {
+                                return(
+                                    <LATextField
+                                    fullWidth={true}
+                                    value={q.addressLine1}
+                                    name="address"
+                                    label="Address"
+                                    onChange={this.handleCustomerInfoChange}
+                                    errorText={errors["address"] ? errors["address"].message : undefined}
+                                />
+                                )
+                            })}
                         </LAGridItem>
 
                         <LAGridItem xs={12} sm={12}>
@@ -320,33 +302,10 @@ class CustomerDetails extends PureComponent<ICustomerDetailsComponentProps, ICus
         this.setState({
             details: {
                 ...this.state.details,
-                customer: {
-                    ...this.state.details.customer,
-                    [name]: value
-                }
+                [name]: value
             },
             errors: initialErrors
         });
-    };
-
-    private handleDepatureChange = (event: unknown, value: IAirportResponse): void => {
-        const initialErrors = { ...this.state.errors };
-        delete initialErrors["depature"];
-        this.setState({ details: { ...this.state.details, depature: value }, errors: initialErrors });
-    };
-
-    private handleDestinationChange = (event: unknown, value: IAirportResponse): void => {
-        const initialErrors = { ...this.state.errors };
-        delete initialErrors["destination"];
-        this.setState({ details: { ...this.state.details, destination: value }, errors: initialErrors });
-    };
-
-    private handleNumberOfTraveller = (name: string, value: string) => {
-        this.setState({ details: { ...this.state.details, numberOfTravellers: Number(value) } });
-    };
-
-    private handleTransChange = (event: unknown, value: ITransportationResponse): void => {
-        this.setState({ details: { ...this.state.details, transportationId: Number(value.id) } });
     };
 
     private handleDateChange = (name: string, value: string): void => {
@@ -413,22 +372,22 @@ class CustomerDetails extends PureComponent<ICustomerDetailsComponentProps, ICus
         const errors = this.state.errors;
         if (Object.values(errors).length === 0) {
             if (data) {
-                const requestBody: IAddEditCustomerRequest = {
-                    id: data.id,
-                    transportationId: data.transportationId,
-                    depatureDate: data.depatureDate,
-                    returnDate: data.returnDate,
-                    numberOfTravellers: data.numberOfTravellers,
-                    depatureId: data.depature.id,
-                    destinationId: data.destination.id,
-                    customer: data.customer
-                };
+                // const requestBody: IAddEditCustomerRequest = {
+                    // id: data.id,
+                    // transportationId: data.transportationId,
+                    // depatureDate: data.depatureDate,
+                    // returnDate: data.returnDate,
+                    // numberOfTravellers: data.numberOfTravellers,
+                    // depatureId: data.depature.id,
+                    // destinationId: data.destination.id,
+                    // customer: data.customer
+                // };
 
-                if (data.id !== 0) {
-                    this.props.editCustomerRequest(requestBody);
-                } else {
-                    this.props.addCustomerRequest(requestBody);
-                }
+                // if (data.id !== 0) {
+                //     this.props.editCustomerRequest(requestBody);
+                // } else {
+                //     this.props.addCustomerRequest(requestBody);
+                // }
                 this.handleBack();
             }
         }
@@ -442,13 +401,11 @@ class CustomerDetails extends PureComponent<ICustomerDetailsComponentProps, ICus
         if (isNaN(this.props.id)) {
             const data = this.state.details;
             let initialErrors = this.state.errors;
-            initialErrors = this.errorChecker("address", data.customer.address, initialErrors, true);
-            initialErrors = this.errorChecker("firstName", data.customer.firstName, initialErrors, true);
-            initialErrors = this.errorChecker("lastName", data.customer.lastName, initialErrors, true);
-            initialErrors = this.errorChecker("phoneNumber", data.customer.phoneNumber, initialErrors, true);
-            initialErrors = this.errorChecker("email", data.customer.email, initialErrors, true);
-            initialErrors = this.errorChecker("destination", data.destination.name, initialErrors, true);
-            initialErrors = this.errorChecker("depature", data.depature.name, initialErrors, true);
+            // initialErrors = this.errorChecker("address", data.addresses, initialErrors, true);
+            initialErrors = this.errorChecker("firstName", data.firstName, initialErrors, true);
+            initialErrors = this.errorChecker("lastName", data.lastName, initialErrors, true);
+            // initialErrors = this.errorChecker("phoneNumber", data.customer.phoneNumber, initialErrors, true);
+            // initialErrors = this.errorChecker("email", data.customer.email, initialErrors, true);
 
             this.setState({ errors: initialErrors });
         }

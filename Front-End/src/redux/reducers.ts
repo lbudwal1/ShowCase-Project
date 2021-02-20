@@ -9,7 +9,7 @@ import { CustomerReducer } from "./customer/customerReducer";
 import { AddCustomerReducer } from "./customer/addCustomer/addCustomerReducer";
 import { EditCustomerReducer } from "./customer/editCustomer/editCustomerReducer";
 import { DeleteCustomerReducer } from "./customer/deleteCustomer/deleteCustomerReducer";
-import { ICustomerResponse } from "./customer/customerConstants";
+import { IPatient } from "./customer/customerConstants";
 import { ILogin } from "./login/loginConstants";
 import { loginReducer } from "./login/loginReducer";
 import { ForgotPasswordRequestReducer, ForgotPasswordReducer, ReSendTemporaryPasswordReducer } from "./forgotPassword/forgotPasswordReducer";
@@ -34,7 +34,7 @@ export interface IStore {
       reSendTemporaryPassword: Server<string>;
   };
     customer: {
-      customers: Server<LaunchCodeApiResponse<ById<ICustomerResponse>>>;
+      customers: Server<LaunchCodeApiResponse<ById<IPatient>>>;
       add: Server<string>;
       edit: Server<string>;
       delete: Server<string>;

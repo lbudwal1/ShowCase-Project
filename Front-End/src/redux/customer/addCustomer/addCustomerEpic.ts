@@ -8,7 +8,7 @@ import { END_POINTS } from "../../endpoints";
 import { ById, LaunchCodeApiResponse } from "../../../reactComponents/shared/publicInterfaces";
 import { IADD_CUSTOMER_REQUEST } from "./addCustomerConstants";
 import { IAddCustomerLoadAction, IAddCustomerLoadFailedAction, IAddCustomerSuccessAction, addCustomerLoadFailedAction, addCustomerLoadSuccessAction } from "./addCustomerActions";
-import { ICustomerResponse } from "../customerConstants";
+import { IPatient } from "../customerConstants";
 
 export const addCustomerEpic: Epic = (
     action$: ActionsObservable<IAddCustomerLoadAction>,
@@ -18,13 +18,13 @@ export const addCustomerEpic: Epic = (
     action$.ofType(IADD_CUSTOMER_REQUEST.REQUEST)
         .pipe(
             mergeMap((action) =>
-                post<LaunchCodeApiResponse<ById<ICustomerResponse>>>(
+                post<LaunchCodeApiResponse<ById<IPatient>>>(
                     END_POINTS.Customers.ADD_CUSTOMER,
                     action.data,
                     withJsonContentType(store.value)
                 )
                     .pipe(
-                        map((response: LaunchCodeApiResponse<ById<ICustomerResponse>>): IAddCustomerSuccessAction => {
+                        map((response: LaunchCodeApiResponse<ById<IPatient>>): IAddCustomerSuccessAction => {
                             return addCustomerLoadSuccessAction(response.message);
                         }),
                         catchError(() => ActionsObservable.of(addCustomerLoadFailedAction("Unable to load addCustomers")))

@@ -5,10 +5,7 @@ import { IDispatch, IStore } from "../../redux/reducers";
 import LAGrid from "../shared/grid";
 import LAGridItem from "../shared/gridList";
 import { ById } from "../shared/publicInterfaces";
-import { ICustomerResponse } from "../../redux/customer/customerConstants";
-import { LAButton, LAIconButton } from "../shared/buttons";
-import { LAPaperWithPadding } from "../shared/paper";
-import { DeleteIcon } from "../shared/icons";
+import { IPatient } from "../../redux/customer/customerConstants";
 import { ROUTE } from "../routes";
 import { Server, STATUS_ENUM } from "../../redux/server";
 import { IDeleteCustomerRequest } from "../../redux/customer/deleteCustomer/deleteCustomerConstants";
@@ -17,6 +14,8 @@ import { deleteCustomerLoadAction } from "../../redux/customer/deleteCustomer/de
 import { MAIN_COLOR } from "../shared/theme";
 import LAErrorBox from "../shared/errorBox";
 import LALoading from "../shared/loading";
+import { TableContainer, TableHead, TableCell, TableRow, Paper, Table, TableBody } from "@material-ui/core";
+
 
 interface ICustomerListComponentStoreProps {
     deleteCustomer: Server<string>;
@@ -27,7 +26,7 @@ interface ICustomerListComponentDispatchProps {
 };
 
 interface ICustomerListOwnProps {
-    data: ById<ICustomerResponse>;
+    data: ById<IPatient>;
     deleted: boolean;
     dataStatus: STATUS_ENUM;
 }
@@ -84,40 +83,32 @@ class CustomerList extends PureComponent<ICustomerListComponentProps, ICustomerL
                         <LAErrorBox text="Sorry No Record Found" />
                     </LAGridItem>}
 
-                    {Object.values(this.props.data).map((x: ICustomerResponse, index: number) => {
-                        return (
-                            <LAGridItem xs={12} key={index}>
-                                <LAPaperWithPadding>
-                                    <LAGrid className="text-center" alignItems="center" justify="space-evenly" spacing={1}>
-
-                                        <LAGridItem xs={12} sm={4}>
-                                            <strong>ID</strong><br />
-                                            <span>{x.id}</span>
-                                        </LAGridItem>
-
-                                        <LAGridItem xs={6} sm={4}>
-                                            <strong>Name</strong><br />
-                                            <span>{x.customer.firstName + " " + x.customer.lastName}</span>
-                                        </LAGridItem>
-
-                                        <LAGridItem xs={6} sm={4}>
-                                            <strong>Destination</strong><br />
-                                            <span>{x.destination.name}</span>
-                                        </LAGridItem>
-
-                                        <LAGridItem xs={10} sm={10}>
-                                            <LAButton label="View / Edit Details" fullWidth={true} onClick={() => this.onViewDetailClick(x.id)} />
-                                        </LAGridItem>
-
-                                        {!this.props.deleted && <LAGridItem xs={2} sm={2}>
-                                            <LAIconButton label="Delete" onClick={() => this.onDeleteClick(x.id)} icon={<DeleteIcon color={MAIN_COLOR} />} />
-                                        </LAGridItem>}
-
-                                    </LAGrid>
-                                </LAPaperWithPadding>
-                            </LAGridItem>
-                        )
-                    })}
+                    <TableContainer component={Paper}>
+                        <Table aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Name</TableCell>
+                                    <TableCell align="right">Calories</TableCell>
+                                    <TableCell align="right">Fat&nbsp;(g)</TableCell>
+                                    <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+                                    <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {Object.values(this.props.data.clients).map((x: IPatient, index: number) => (
+                                    <TableRow key={x.id}>
+                                        <TableCell component="th" scope="row">
+                                            {x.firstName}
+                                        </TableCell>
+                                        <TableCell align="right">{x.firstName}</TableCell>
+                                        <TableCell align="right">{x.firstName}</TableCell>
+                                        <TableCell align="right">{x.firstName}</TableCell>
+                                        <TableCell align="right">{x.firstName}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </>
 
             default:

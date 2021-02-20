@@ -1,6 +1,6 @@
 import { ById, LaunchCodeApiResponse } from "../../reactComponents/shared/publicInterfaces";
 import { IStore } from "../reducers";
 import { Server } from "../server";
-import { ICustomerResponse } from "./customerConstants";
+import { IPatient } from "./customerConstants";
 
-export const getCustomers = (state: IStore): Server<LaunchCodeApiResponse<ById<ICustomerResponse>>> => state.customer.customers;
+export const getCustomers = (state: IStore): Server<LaunchCodeApiResponse<ById<IPatient>>> => state.customer.customers;
