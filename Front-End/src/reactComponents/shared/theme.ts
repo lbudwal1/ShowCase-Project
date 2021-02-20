@@ -2,11 +2,11 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import lightBlue from "@material-ui/core/colors/lightBlue";
 import orange from "@material-ui/core/colors/orange";
 
-export const APP_NAME = "Launch Code";
+export const APP_NAME = "Snore MD";
 
 // colors
 export const RED_COLOR = "#bf0000";
-export const MAIN_COLOR = "#e62b24";
+export const MAIN_COLOR = "#00609b";
 export const LIGHT_MAIN_COLOR = `${MAIN_COLOR}10`;
 export const LIGHT_GREY_COLOR = "#ececec";
 export const DARK_GREY_COLOR = "#ccc";

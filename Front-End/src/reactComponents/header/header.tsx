@@ -9,7 +9,7 @@ import LogoutButton from './../logoutButton';
 
 const HeaderStyles = styled.div`
     .main-header {
-        background-color: #41B3A3;
+        background-color: #e0e723;
         width: 100%;
         display: flex;
         align-items: center;
@@ -41,6 +41,11 @@ const HeaderStyles = styled.div`
         box-shadow: 0 2px 10px 0 rgba(204, 204, 204, 0.5);
     }
 
+    .logo-img {
+        width: 45px;
+        height: 45px;
+    }
+
     @media (max-width: ${MEDIA_QUERY_PHONE}) {
         .hide-on-phone, .hide-on-phone * {
             display: none;
@@ -52,6 +57,7 @@ const HeaderStyles = styled.div`
         .main-header .logo-container img {
             margin-right: 0;
         }
+
     }
 `;
 
@@ -62,7 +68,7 @@ const Header: React.FC<RouteComponentProps> = React.memo((props: RouteComponentP
     <HeaderStyles>
         <div className="main-header">
             <Link to={ROUTE.INDEX} className="logo-container">
-                <img src={headerLogo} alt="logo" title="logo" />
+                <img src={headerLogo} className="logo-img" alt="logo" title="logo" />
                 <span className="hide-on-phone">{APP_NAME}</span>
             </Link>
 
