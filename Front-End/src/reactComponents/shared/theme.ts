@@ -7,6 +7,7 @@ export const APP_NAME = "Snore MD";
 // colors
 export const RED_COLOR = "#bf0000";
 export const MAIN_COLOR = "#00609b";
+export const YELLOW_COLOR = "#e0e723";
 export const LIGHT_MAIN_COLOR = `${MAIN_COLOR}10`;
 export const LIGHT_GREY_COLOR = "#ececec";
 export const DARK_GREY_COLOR = "#ccc";

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { MAIN_COLOR, MEDIA_QUERY_PHONE, APP_NAME } from "../shared/theme";
+import { MAIN_COLOR, MEDIA_QUERY_PHONE, APP_NAME, YELLOW_COLOR } from "../shared/theme";
 import { headerLogo} from "../shared/icons";
 import { ROUTE } from "../routes";
 import CustomerDropDown from "./customerDropDown";
@@ -9,7 +9,7 @@ import LogoutButton from './../logoutButton';
 
 const HeaderStyles = styled.div`
     .main-header {
-        background-color: #e0e723;
+        background-color: ${YELLOW_COLOR};
         width: 100%;
         display: flex;
         align-items: center;
@@ -18,7 +18,7 @@ const HeaderStyles = styled.div`
         .logo-container {
             display: flex;
             align-items: center;
-            color: #fff;
+            color: ${MAIN_COLOR};
             background-color: ${MAIN_COLOR}
             padding: 1rem 2rem;
             margin-right: 1.5rem;
@@ -69,7 +69,7 @@ const Header: React.FC<RouteComponentProps> = React.memo((props: RouteComponentP
         <div className="main-header">
             <Link to={ROUTE.INDEX} className="logo-container">
                 <img src={headerLogo} className="logo-img" alt="logo" title="logo" />
-                <span className="hide-on-phone">{APP_NAME}</span>
+                <h2 className="hide-on-phone">{APP_NAME}</h2>
             </Link>
 
             <div className="right-side">

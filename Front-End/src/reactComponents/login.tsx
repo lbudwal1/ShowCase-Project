@@ -17,7 +17,8 @@ import PasswordTextField from './shared/passwordTextField';
 import LAErrorBox from "./shared/errorBox";
 import LAGrid from "./shared/grid";
 import LAGridItem from "./shared/gridList";
-import { LAPaperWithPadding } from "./shared/paper";
+import { APP_NAME, MEDIA_QUERY_PHONE_NUMBER } from "./shared/theme";
+import PublicActionPageWrapper from "./shared/publicActionWrapper";
 
 interface ILoginState {
     login: ILoginRequest;
@@ -49,7 +50,7 @@ class Login extends PureComponent<ILoginProps, ILoginState> {
         this.state = {
 
             login: {
-                username: "tech@truckpartsinventory.com",
+                username: "lbudwal1",
                 password: "Password12"
             },
             validation: {},
@@ -74,10 +75,9 @@ class Login extends PureComponent<ILoginProps, ILoginState> {
     public render(): ReactNode {
         const loginStatus = this.getLoginStatus();
         return (
-            <LAPaperWithPadding>
-                <LAGrid>
+            <PublicActionPageWrapper title={APP_NAME} width={500} minWidth={MEDIA_QUERY_PHONE_NUMBER} minHeight={383}>
+                <LAGrid alignItems="center" justify="center">
                     <LAGridItem xs={12}>
-                        <LAPaperWithPadding>
                             {loginStatus.isNewPasswordRequired === false && loginStatus.isNonSilentFailed && <LAErrorBox text={loginFailedMessage} className="mb-3" />}
                             {loginStatus.isNewPasswordRequired && <LAErrorBox text="Please set your new Password" className="mb-3" />}
                             <LATextField
@@ -139,10 +139,9 @@ class Login extends PureComponent<ILoginProps, ILoginState> {
                                 isLoadingStatus={loginStatus.isLoading}
                             />
                         </SharedTwoButtonStyles> */}
-                        </LAPaperWithPadding>
                     </LAGridItem>
                 </LAGrid>
-            </LAPaperWithPadding>
+            </PublicActionPageWrapper>
         );
     }
 

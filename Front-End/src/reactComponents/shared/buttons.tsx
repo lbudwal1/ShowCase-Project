@@ -4,7 +4,7 @@ import { HasClass } from "./publicInterfaces";
 import { LAToolTip } from "./toolTip";
 import Button from "@material-ui/core/Button";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import { GREEN_COLOR, WHITE_COLOR } from "./theme";
+import { MAIN_COLOR, WHITE_COLOR } from "./theme";
 import styled from "styled-components";
 import LAGridItem from "./gridList";
 import LAGrid from "./grid";
@@ -41,11 +41,11 @@ interface ILAButtonProps extends HasClass {
 const greenTheme = createMuiTheme({
     palette: {
         primary: {
-            main: GREEN_COLOR,
+            main: MAIN_COLOR,
             contrastText: WHITE_COLOR
         },
         background: {
-            default: GREEN_COLOR
+            default: MAIN_COLOR
         }
     }
 });
